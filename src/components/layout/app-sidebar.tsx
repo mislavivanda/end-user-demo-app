@@ -16,16 +16,17 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-  SidebarRail
+  SidebarRail,
+  useSidebar
 } from '@/components/ui/sidebar';
 import { UserAvatarProfile } from '@/components/user-avatar-profile';
+import Image from 'next/image';
 import { navItems, user } from '@/constants/data';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { IconChevronRight, IconChevronsDown } from '@tabler/icons-react';
@@ -38,7 +39,7 @@ export default function AppSidebar() {
   const pathname = usePathname();
   const { isOpen } = useMediaQuery();
   const router = useRouter();
-
+  const { open } = useSidebar();
   React.useEffect(() => {
     // Side effects based on sidebar state changes
   }, [isOpen]);
@@ -47,7 +48,26 @@ export default function AppSidebar() {
     <Sidebar collapsible='icon'>
       <SidebarContent className='overflow-x-hidden'>
         <SidebarGroup>
-          <SidebarGroupLabel>Overview</SidebarGroupLabel>
+          <div className='flex justify-center items-center my-2'>
+            {open ? <>
+              <div className='relative aspect-square h-[50px] w-[50px] overflow-hidden rounded-full'>
+                <Image
+                  src='/images/hm_logo.jpg'
+                  alt='HomeMate logo'
+                  fill
+                  className='object-cover'
+                />
+              </div>
+              <span className='text-xl ml-2 text-[var(--color-sidebar-accent-foreground)]'>HomeMate</span>
+            </> : <div className='relative aspect-square h-[20px] w-[20px] overflow-hidden rounded-full'>
+              <Image
+                src='/images/hm_logo.jpg'
+                alt='HomeMate logo'
+                fill
+                className='object-cover'
+              />
+            </div>}
+          </div>
           <SidebarMenu>
             {navItems.map((item) => {
               const Icon = item.icon ? Icons[item.icon] : Icons.logo;
